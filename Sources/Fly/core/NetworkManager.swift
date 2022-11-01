@@ -53,9 +53,17 @@ open class NetworkManager {
 			}
 		}
 		do {
-			let (data, _) = try await session.data(for: request)
+			let (data, response) = try await session.data(for: request)
+			guard let httpResponse = response as? HTTPURLResponse else {
+				return .failure(NetworkError.invalidResponse)
+			}
+			let acceptableCodes = 200..<300
 			let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-			return .success(decodedResponse)
+			if acceptableCodes.contains(httpResponse.statusCode) {
+				return .success(decodedResponse)
+			} else {
+				return .failure(NetworkError.invalidStatusCode(code: httpResponse.statusCode))
+			}
 		} catch (let error) {
 			return .failure(NetworkError.other(error: error))
 		}
