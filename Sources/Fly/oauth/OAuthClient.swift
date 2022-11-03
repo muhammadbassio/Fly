@@ -36,16 +36,17 @@ open class OAuthClient {
 	
 	func loadToken() {
 		guard configuration.clientId != "",
-					let accessToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.accessToken") as? String,
-					let type = keyValueStorage.value(key: "\(configuration.clientId).accessToken.tokenType") as? String,
-					let refreshToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.refreshToken") as? String
+					let accessToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.accessToken"),
+					let type = keyValueStorage.value(key: "\(configuration.clientId).accessToken.tokenType"),
+					let refreshToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.refreshToken")
 		else { return }
 		token = OAuthToken(tokenType: type, accessToken: accessToken, refreshToken: refreshToken)
 		
-		if let idToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.idToken") as? String {
+		if let idToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.idToken") {
 			token?.idToken = idToken
 		}
-		if let timeInterval = keyValueStorage.value(key: "\(configuration.clientId).accessToken.accessTokenExpiry") as? Double {
+		if let intervalString = keyValueStorage.value(key: "\(configuration.clientId).accessToken.accessTokenExpiry"),
+			 let timeInterval = Double(intervalString) {
 			let accessTokenExpiry = Date(timeIntervalSinceReferenceDate: timeInterval)
 			self.token?.accessTokenExpiry = accessTokenExpiry
 			if accessTokenExpiry.timeIntervalSince(Date()) < 0 {
@@ -68,7 +69,7 @@ open class OAuthClient {
 		}
 		if let accessTokenExpiry = self.token?.accessTokenExpiry {
 			let timeInterval = accessTokenExpiry.timeIntervalSinceReferenceDate
-			keyValueStorage.save(value: timeInterval, for: "\(configuration.clientId).accessToken.accessTokenExpiry")
+			keyValueStorage.save(value: "\(timeInterval)", for: "\(configuration.clientId).accessToken.accessTokenExpiry")
 		}
 		return true
 	}
