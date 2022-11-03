@@ -9,7 +9,7 @@ import Foundation
 
 // Protocol used to save, load and delete (key, value) data
 public protocol KeyValueStorage {
-	func save(value: Any, for key: String)
+	@discardableResult func save(value: Any, for key: String) -> Bool
 	func value(key: String) -> Any
 	@discardableResult func detele(key: String) -> Bool
 }
