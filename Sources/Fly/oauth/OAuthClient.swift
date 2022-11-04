@@ -11,15 +11,15 @@ import AuthenticationServices
 open class OAuthClient {
 	
 	/// The OAuth2 client configuration.
-	private(set) public var configuration: OAuthClientConfiguration
+	public var configuration: OAuthClientConfiguration
 	
 	/// The OAuth2 fetched access token.
-	private(set)  public var token: OAuthToken?
+	public var token: OAuthToken?
 	
-	var keyValueStorage: KeyValueStorage
-	var networkManager: NetworkManager = NetworkManager.shared
+	public var keyValueStorage: KeyValueStorage
+	public var networkManager: NetworkManager = NetworkManager.shared
 	
-	private var authenticator: ASWebAuthenticationSession? = nil
+	public var authenticator: ASWebAuthenticationSession? = nil
 	
 	public var clientIsLoadingToken: (() -> Void) = {}
 	public var clientDidFinishLoadingToken: (() -> Void) = {}
@@ -34,7 +34,7 @@ open class OAuthClient {
 		loadToken()
 	}
 	
-	func loadToken() {
+	open func loadToken() {
 		guard configuration.clientId != "",
 					let accessToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.accessToken"),
 					let type = keyValueStorage.value(key: "\(configuration.clientId).accessToken.tokenType"),
@@ -58,7 +58,7 @@ open class OAuthClient {
 		
 	}
 	
-	@discardableResult func saveToken() -> Bool {
+	@discardableResult open func saveToken() -> Bool {
 		guard configuration.clientId != "" else { return false }
 		guard let accessToken = self.token?.accessToken, let type = self.token?.tokenType, let refreshToken = self.token?.refreshToken else { return false }
 		keyValueStorage.save(value: accessToken, for: "\(configuration.clientId).accessToken.accessToken")
@@ -74,7 +74,7 @@ open class OAuthClient {
 		return true
 	}
 	
-	func clearToken() {
+	open func clearToken() {
 		guard configuration.clientId != "" else { return }
 		keyValueStorage.detele(key: "\(configuration.clientId).accessToken.accessToken")
 		keyValueStorage.detele(key: "\(configuration.clientId).accessToken.tokenType")

@@ -8,12 +8,12 @@
 import Foundation
 
 public struct OAuthToken: Codable {
-	var tokenType: String?
-	var accessToken: String?
-	var refreshToken: String?
-	var idToken: String?
-	var expiresIn: UInt?
-	var accessTokenExpiry: Date?
+	public var tokenType: String?
+	public var accessToken: String?
+	public var refreshToken: String?
+	public var idToken: String?
+	public var expiresIn: UInt?
+	public var accessTokenExpiry: Date?
 	
 	enum CodingKeys: String, CodingKey {
 		case tokenType = "token_type"
