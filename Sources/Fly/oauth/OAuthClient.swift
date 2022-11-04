@@ -40,7 +40,10 @@ open class OAuthClient {
 					let type = keyValueStorage.value(key: "\(configuration.clientId).accessToken.tokenType"),
 					let refreshToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.refreshToken")
 		else { return }
-		token = OAuthToken(tokenType: type, accessToken: accessToken, refreshToken: refreshToken)
+		token = OAuthToken()
+		token?.accessToken = accessToken
+		token?.tokenType = type
+		token?.refreshToken = refreshToken
 		
 		if let idToken = keyValueStorage.value(key: "\(configuration.clientId).accessToken.idToken") {
 			token?.idToken = idToken
