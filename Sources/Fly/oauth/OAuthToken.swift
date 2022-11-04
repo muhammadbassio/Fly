@@ -8,6 +8,7 @@
 import Foundation
 
 public struct OAuthToken: Codable {
+	
 	public var tokenType: String?
 	public var accessToken: String?
 	public var refreshToken: String?
@@ -23,4 +24,9 @@ public struct OAuthToken: Codable {
 		case expiresIn = "expires_in"
 		case accessTokenExpiry = "expiry_date"
 	}
+	
+	public init() {
+		
+	}
+	
 }
