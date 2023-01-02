@@ -87,7 +87,7 @@ open class OAuthClient {
 	}
 	
 	open func authorize(provider: ASWebAuthenticationPresentationContextProviding) {
-		var urltext = "\(self.configuration.authURL)?client_id=\(self.configuration.clientId)&redirect_uri=\(self.configuration.redirectURL)&approval_prompt=force"
+		var urltext = "\(self.configuration.authURL)?client_id=\(self.configuration.clientId)&redirect_uri=\(self.configuration.redirectURL)&prompt=consent&access_type=offline"
 		if self.configuration.scope != "" {
 			urltext = "\(urltext)&scope=\(self.configuration.scope)"
 		}
