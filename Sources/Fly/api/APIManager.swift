@@ -16,6 +16,7 @@ open class APIManager {
 	
 	public init(manager: NetworkManager = NetworkManager.shared, client: OAuthClient? = nil) {
 		networkManager = manager
+		oAuthClient = client
 		initConfiguration()
 	}
 	
